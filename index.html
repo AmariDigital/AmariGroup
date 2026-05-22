@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Amari Group — Nairobi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+
+/* ─── Reset ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Geist',sans-serif;
+  background:#FAFAF8;
+  color:#0E0D0C;
+  overflow-x:hidden;
+  cursor:none;
+}
+a{text-decoration:none;color:inherit}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-thumb{background:#C8A45A}
+
+/* ─── Variables ─── */
+:root{
+  --white:#FAFAF8;
+  --off:#F2F0EC;
+  --ink:#0E0D0C;
+  --mid:#7A7672;
+  --dim:#C4BFB8;
+  --line:rgba(14,13,12,.09);
+  --gold:#B8913A;
+  --ca:#B8913A;   /* creative gold */
+  --cb:#C07030;   /* ict amber */
+}
+
+/* ─── Cursor ─── */
+#cur{
+  position:fixed;width:5px;height:5px;
+  background:var(--ink);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,background .3s,border .3s;
+}
+#cur.on-link{
+  width:40px;height:40px;
+  background:transparent;
+  border:1px solid var(--ink);
+}
+#cur.on-a{border-color:var(--ca)}
+#cur.on-b{border-color:var(--cb)}
+
+/* ─── Navigation ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:56px;padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(250,250,248,.94);
+  backdrop-filter:blur(14px);
+  transition:box-shadow .4s;
+}
+nav.scrolled{box-shadow:0 1px 0 var(--line)}
+.n-logo{
+  font-family:'Libre Baskerville',serif;
+  font-size:15px;letter-spacing:.05em;color:var(--ink);
+}
+.n-logo em{font-style:italic;color:var(--gold)}
+.n-loc{
+  font-size:10px;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mid);
+}
+.n-cta{
+  font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);border-bottom:1px solid var(--line);
+  padding-bottom:2px;transition:color .2s,border-color .2s;
+}
+.n-cta:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;padding:160px 48px 100px;
+  display:flex;flex-direction:column;justify-content:center;
+  max-width:1200px;margin:0 auto;
+}
+.h-label{
+  font-size:10px;font-weight:400;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--mid);
+  margin-bottom:44px;
+  opacity:0;animation:up .6s ease .15s forwards;
+}
+.h-headline{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(48px,7.5vw,106px);
+  font-weight:400;line-height:.93;
+  letter-spacing:-.03em;color:var(--ink);
+  margin-bottom:52px;
+  opacity:0;animation:up .7s ease .3s forwards;
+}
+.h-headline em{font-style:italic;color:var(--gold)}
+.h-headline .indent{display:block;margin-left:14%}
+.h-sub{
+  max-width:400px;
+  font-size:15px;font-weight:300;line-height:1.8;color:var(--mid);
+  margin-bottom:72px;
+  opacity:0;animation:up .7s ease .48s forwards;
+}
+.h-scroll{
+  font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);display:flex;align-items:center;gap:16px;
+  opacity:0;animation:up .5s ease .7s forwards;
+}
+.h-scroll::after{content:'';width:44px;height:1px;background:var(--dim)}
+
+@keyframes up{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+
+/* ─── Horizontal rule ─── */
+.rule{
+  border:none;
+  border-top:1px solid var(--line);
+  max-width:1200px;margin:0 auto;
+}
+
+/* ─── Company Rows ─── */
+#companies{
+  max-width:1200px;margin:0 auto;
+  border-top:1px solid var(--line);
+}
+.co-row{
+  display:grid;grid-template-columns:260px 1fr;
+  border-bottom:1px solid var(--line);
+  cursor:none;
+  transition:background .3s;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s ease,transform .6s ease,background .3s;
+}
+.co-row.in{opacity:1;transform:none}
+.co-row:hover{background:var(--off)}
+
+.cr-left{
+  padding:52px 36px 52px 48px;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:space-between;
+  gap:32px;
+}
+.cr-num{
+  font-size:10px;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);
+}
+.cr-brand{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(20px,2.4vw,30px);
+  font-weight:400;line-height:1.1;
+  letter-spacing:-.01em;color:var(--ink);
+}
+.cr-brand em{font-style:italic}
+.co-row.row-a .cr-brand em{color:var(--ca)}
+.co-row.row-b .cr-brand em{color:var(--cb)}
+.cr-arrow{
+  font-size:20px;color:var(--dim);
+  transition:transform .35s cubic-bezier(.2,0,.2,1),color .25s;
+  display:inline-block;align-self:flex-end;
+}
+.co-row:hover .cr-arrow{transform:translate(5px,-5px);color:var(--ink)}
+
+.cr-right{
+  padding:52px 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;
+  align-items:start;
+}
+.cr-type{
+  font-size:10px;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;margin-bottom:14px;
+  transition:opacity .25s;
+}
+.co-row.row-a .cr-type{color:var(--ca)}
+.co-row.row-b .cr-type{color:var(--cb)}
+.cr-tagline{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(15px,1.6vw,20px);
+  font-weight:400;font-style:italic;
+  line-height:1.4;color:var(--ink);
+}
+.cr-list{
+  list-style:none;
+  display:flex;flex-direction:column;gap:10px;
+  padding-top:2px;
+}
+.cr-list li{
+  font-size:13px;font-weight:300;
+  color:var(--mid);
+  display:flex;align-items:center;gap:12px;
+  transition:color .25s;
+}
+.cr-list li::before{
+  content:'';width:18px;height:1px;
+  background:var(--line);flex-shrink:0;
+  transition:width .3s,background .3s;
+}
+.co-row:hover .cr-list li{color:var(--ink)}
+.co-row.row-a:hover .cr-list li::before{width:26px;background:var(--ca)}
+.co-row.row-b:hover .cr-list li::before{width:26px;background:var(--cb)}
+
+/* ─── Stats Bar ─── */
+.stat-bar{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .65s ease,transform .65s ease;
+}
+.stat-bar.in{opacity:1;transform:none}
+.sb{
+  padding:48px;border-right:1px solid var(--line);
+}
+.sb:last-child{border-right:none}
+.sb-n{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(26px,3.5vw,46px);
+  font-weight:400;color:var(--ink);
+  letter-spacing:-.025em;line-height:1;
+  margin-bottom:8px;
+}
+.sb-l{
+  font-size:10px;font-weight:300;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mid);
+}
+
+/* ─── Statement Block ─── */
+#statement{
+  max-width:1200px;margin:0 auto;
+  padding:120px 48px;
+  border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+#statement.in{opacity:1;transform:none}
+.st-text{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(22px,3.2vw,44px);
+  font-weight:400;line-height:1.28;
+  letter-spacing:-.015em;color:var(--ink);
+  max-width:820px;
+}
+.st-text em{font-style:italic;color:var(--gold)}
+.st-foot{
+  margin-top:48px;
+  font-size:10px;font-weight:300;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mid);
+  display:flex;align-items:center;gap:20px;
+}
+.st-foot::before{content:'';width:32px;height:1px;background:var(--dim)}
+
+/* ─── Contact ─── */
+#contact{
+  max-width:1200px;margin:0 auto;
+  padding:100px 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .65s ease,transform .65s ease;
+}
+#contact.in{opacity:1;transform:none}
+.ct-tag{
+  font-size:10px;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mid);margin-bottom:32px;
+}
+.ct-heading{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(24px,2.8vw,38px);
+  font-weight:400;line-height:1.1;
+  letter-spacing:-.015em;color:var(--ink);margin-bottom:44px;
+}
+.ct-heading em{font-style:italic;color:var(--gold)}
+.ct-detail{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:18px 0;border-bottom:1px solid var(--line);
+}
+.ct-detail:first-of-type{border-top:1px solid var(--line)}
+.ct-dl{
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mid);width:76px;flex-shrink:0;padding-top:3px;
+}
+.ct-dv{
+  font-size:14px;font-weight:300;color:var(--ink);line-height:1.65;
+}
+.ct-dv a{color:var(--ink);transition:color .2s}
+.ct-dv a:hover{color:var(--gold)}
+
+.ct-links{display:flex;flex-direction:column;gap:10px}
+.ct-link{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;
+  border:1px solid var(--line);border-radius:3px;
+  transition:border-color .25s,background .25s;
+  cursor:none;
+}
+.ct-link:hover{border-color:rgba(14,13,12,.3);background:var(--off)}
+.ctl-left{}
+.ctl-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.ctl-sub{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
+.ctl-arrow{
+  font-size:20px;color:var(--dim);
+  transition:transform .3s,color .25s;
+}
+.ct-link:hover .ctl-arrow{transform:translate(3px,-3px);color:var(--ink)}
+.ct-link.link-a:hover{border-color:var(--ca)}
+.ct-link.link-b:hover{border-color:var(--cb)}
+.ct-link.link-wa:hover{border-color:#25d366}
+.ct-link.link-wa .ctl-name{display:flex;align-items:center;gap:8px}
+.wa-icon{
+  width:16px;height:16px;
+  background:#25d366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.wa-icon svg{width:9px;height:9px}
+
+/* ─── Footer ─── */
+footer{
+  max-width:1200px;margin:0 auto;
+  border-top:1px solid var(--line);
+  padding:36px 48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+}
+.ft-brand{
+  font-family:'Libre Baskerville',serif;
+  font-size:14px;letter-spacing:.04em;
+}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-copy{font-size:11px;font-weight:300;letter-spacing:.06em;color:var(--mid)}
+
+/* ─── PORTAL OVERLAY (iframe-based) ─── */
+#portal{
+  position:fixed;inset:0;z-index:500;
+  background:var(--white);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+#portal.open{
+  transform:translateY(0);
+  pointer-events:all;
+}
+
+/* portal top bar */
+#portal-bar{
+  height:48px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+  border-bottom:1px solid var(--line);
+  background:rgba(250,250,248,.97);
+  backdrop-filter:blur(12px);
+  position:relative;z-index:2;
+}
+.pb-back{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mid);cursor:none;
+  transition:color .2s;
+  background:none;border:none;padding:0;
+}
+.pb-back:hover{color:var(--ink)}
+.pb-back svg{width:14px;height:14px;transition:transform .25s}
+.pb-back:hover svg{transform:translateX(-3px)}
+.pb-label{
+  font-size:11px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mid);
+}
+.pb-label span{color:var(--ink)}
+.pb-switch{display:flex;gap:6px}
+.pb-sw-btn{
+  font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 14px;border-radius:2px;border:1px solid var(--line);
+  color:var(--mid);background:transparent;cursor:none;
+  transition:all .2s;
+}
+.pb-sw-btn:hover,.pb-sw-btn.active{
+  background:var(--ink);color:var(--white);border-color:var(--ink);
+}
+
+/* iframe */
+#portal-frame{
+  flex:1;
+  border:none;
+  width:100%;
+}
+
+/* ─── Responsive ─── */
+@media(max-width:900px){
+  nav{padding:0 24px}
+  .n-loc{display:none}
+  #hero{padding:130px 24px 80px}
+  .co-row{grid-template-columns:1fr}
+  .cr-left{
+    padding:32px 24px;
+    border-right:none;border-bottom:1px solid var(--line);
+    flex-direction:row;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .cr-right{padding:32px 24px;grid-template-columns:1fr;gap:24px}
+  .stat-bar{grid-template-columns:1fr 1fr}
+  .sb{padding:32px 24px}
+  #statement{padding:80px 24px}
+  #contact{grid-template-columns:1fr;padding:80px 24px;gap:56px}
+  footer{padding:28px 24px;flex-direction:column;gap:10px;text-align:center}
+  #portal-bar{padding:0 16px}
+  .pb-label{display:none}
+}
+
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cur"></div>
+
+<!-- ══════════════════════════════════════
+     PORTAL OVERLAY
+══════════════════════════════════════ -->
+<div id="portal">
+  <div id="portal-bar">
+    <button class="pb-back" onclick="closePortal()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      Group Home
+    </button>
+    <div class="pb-label">Viewing: <span id="pb-name">—</span></div>
+    <div class="pb-switch">
+      <button class="pb-sw-btn" id="sw-a" onclick="switchPortal('a')">Creative Agency</button>
+      <button class="pb-sw-btn" id="sw-b" onclick="switchPortal('b')">ICT & ELV</button>
+    </div>
+  </div>
+  <iframe id="portal-frame" src="" title="Company Site" allowfullscreen></iframe>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN PAGE
+══════════════════════════════════════ -->
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="n-logo">Amari<em>.</em></div>
+  <div class="n-loc">Nairobi, Kenya</div>
+  <a href="mailto:amaridigital@outlook.com" class="n-cta">Get in Touch</a>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <p class="h-label">Group of Companies — Est. 2024</p>
+  <h1 class="h-headline">
+    One Group.
+    <span class="indent">Every <em>Digital Need.</em></span>
+  </h1>
+  <p class="h-sub">Two specialist companies built for Kenya — covering brand, digital marketing, and enterprise technology infrastructure.</p>
+  <div class="h-scroll">Select a company below</div>
+</section>
+
+<!-- Companies -->
+<section id="companies">
+
+  <!-- Row A — Creative Agency -->
+  <div class="co-row row-a" onclick="openPortal('a')">
+    <div class="cr-left">
+      <span class="cr-num">01</span>
+      <div class="cr-brand">Amari<em>.</em><br>Digital</div>
+      <span class="cr-arrow">↗</span>
+    </div>
+    <div class="cr-right">
+      <div>
+        <div class="cr-type">Creative Agency</div>
+        <div class="cr-tagline">"We Build Digital Presence That Sells."</div>
+      </div>
+      <ul class="cr-list">
+        <li>Web Design & Development</li>
+        <li>Brand Identity & Design</li>
+        <li>Social Media Marketing</li>
+        <li>SEO & Content Strategy</li>
+        <li>E-Commerce Solutions</li>
+        <li>Paid Advertising (PPC)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Row B — ICT Systems -->
+  <div class="co-row row-b" onclick="openPortal('b')" style="transition-delay:.1s">
+    <div class="cr-left">
+      <span class="cr-num">02</span>
+      <div class="cr-brand">Amari<em>.</em><br>Systems</div>
+      <span class="cr-arrow">↗</span>
+    </div>
+    <div class="cr-right">
+      <div>
+        <div class="cr-type">ICT & ELV Integrator</div>
+        <div class="cr-tagline">"Smart Systems for Modern East Africa."</div>
+      </div>
+      <ul class="cr-list">
+        <li>CCTV & Surveillance</li>
+        <li>Biometric Access Control</li>
+        <li>Hotel IPTV Systems</li>
+        <li>Building Automation (BMS)</li>
+        <li>Networks & Structured Cabling</li>
+        <li>Audio Visual Systems</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- Stats -->
+<div class="stat-bar" id="stats">
+  <div class="sb">
+    <div class="sb-n">540+</div>
+    <div class="sb-l">Projects Delivered</div>
+  </div>
+  <div class="sb">
+    <div class="sb-n">8</div>
+    <div class="sb-l">Countries Served</div>
+  </div>
+  <div class="sb">
+    <div class="sb-n">12+</div>
+    <div class="sb-l">Years in Kenya</div>
+  </div>
+  <div class="sb">
+    <div class="sb-n">2</div>
+    <div class="sb-l">Specialist Divisions</div>
+  </div>
+</div>
+
+<!-- Statement -->
+<div id="statement">
+  <p class="st-text">
+    From the visual identity of your brand to the physical intelligence of your building — the Amari Group delivers both, <em>with precision.</em>
+  </p>
+  <div class="st-foot">Westlands, Nairobi · Kenya · East Africa</div>
+</div>
+
+<!-- Contact -->
+<section id="contact">
+  <div>
+    <p class="ct-tag">Contact</p>
+    <h2 class="ct-heading">Let's build something <em>together.</em></h2>
+    <div class="ct-detail">
+      <div class="ct-dl">Phone</div>
+      <div class="ct-dv"><a href="tel:+254726833857">+254 726 833 857</a></div>
+    </div>
+    <div class="ct-detail">
+      <div class="ct-dl">Email</div>
+      <div class="ct-dv"><a href="mailto:amaridigital@outlook.com">amaridigital@outlook.com</a></div>
+    </div>
+    <div class="ct-detail">
+      <div class="ct-dl">Hours</div>
+      <div class="ct-dv">Mon – Sat, 8am – 7pm EAT</div>
+    </div>
+    <div class="ct-detail">
+      <div class="ct-dl">Location</div>
+      <div class="ct-dv">Westlands, Nairobi<br>Kenya, East Africa</div>
+    </div>
+  </div>
+
+  <div>
+    <p class="ct-tag">Our Divisions</p>
+    <div class="ct-links">
+
+      <div class="ct-link link-a" onclick="openPortal('a')">
+        <div class="ctl-left">
+          <div class="ctl-name">Amari Digital</div>
+          <div class="ctl-sub">Creative Agency</div>
+        </div>
+        <div class="ctl-arrow">↗</div>
+      </div>
+
+      <div class="ct-link link-b" onclick="openPortal('b')">
+        <div class="ctl-left">
+          <div class="ctl-name">Amari Systems</div>
+          <div class="ctl-sub">ICT & ELV Integrator</div>
+        </div>
+        <div class="ctl-arrow">↗</div>
+      </div>
+
+      <a class="ct-link link-wa" href="https://wa.me/254726833857?text=Hi%20Amari%20Group!" target="_blank" rel="noopener">
+        <div class="ctl-left">
+          <div class="ctl-name">
+            <div class="wa-icon">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            WhatsApp Us
+          </div>
+          <div class="ctl-sub">Quick Response — We Reply in 2 hrs</div>
+        </div>
+        <div class="ctl-arrow">↗</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="ft-brand">Amari<em>.</em> Group</div>
+  <div class="ft-copy">© 2025 Amari Group · Westlands, Nairobi, Kenya</div>
+</footer>
+
+<script>
+(function(){
+
+  /* ── Cursor ── */
+  var cur = document.getElementById('cur');
+  var mx = 0, my = 0;
+  document.addEventListener('mousemove', function(e){
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx + 'px';
+    cur.style.top  = my + 'px';
+  });
+  function addHover(selector, cls){
+    document.querySelectorAll(selector).forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('on-link', cls); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('on-link','on-a','on-b'); });
+    });
+  }
+  addHover('.row-a, .link-a', 'on-a');
+  addHover('.row-b, .link-b', 'on-b');
+  addHover('a, button, .ct-link, .pb-sw-btn', 'on-link');
+
+  /* ── Nav shadow on scroll ── */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  }, {passive:true});
+
+  /* ── Scroll reveal ── */
+  var revEls = document.querySelectorAll('.co-row, .stat-bar, #statement, #contact');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.08});
+  revEls.forEach(function(el){ io.observe(el); });
+
+  /* ── Portal ── */
+  var portal  = document.getElementById('portal');
+  var frame   = document.getElementById('portal-frame');
+  var pbName  = document.getElementById('pb-name');
+  var swA     = document.getElementById('sw-a');
+  var swB     = document.getElementById('sw-b');
+  var current = null;
+
+  var companies = {
+    a: { file: 'index.html',                  name: 'Amari Digital — Creative Agency' },
+    b: { file: 'amari-digital-complete.html', name: 'Amari Systems — ICT & ELV' }
+  };
+
+  window.openPortal = function(id){
+    current = id;
+    var co  = companies[id];
+    frame.src = co.file;
+    pbName.textContent = co.name;
+    swA.classList.toggle('active', id === 'a');
+    swB.classList.toggle('active', id === 'b');
+    portal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closePortal = function(){
+    portal.classList.remove('open');
+    document.body.style.overflow = '';
+    // clear src after transition so next open is fresh
+    setTimeout(function(){ frame.src = ''; }, 600);
+    current = null;
+  };
+
+  window.switchPortal = function(id){
+    if(id === current) return;
+    openPortal(id);
+  };
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closePortal();
+  });
+
+})();
+</script>
+</body>
+</html>
